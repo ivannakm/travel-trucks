@@ -103,3 +103,6 @@
   letter-spacing: -0.01em;
   text-align: center;
 }
+.typeBox.active {
+  border-color: var(--button);
+}

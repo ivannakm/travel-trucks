@@ -4,7 +4,7 @@ import "./index.css";
 import "modern-normalize";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
-import { store } from "./redux/store.js";
+import store from "./redux/store.js";
 import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
