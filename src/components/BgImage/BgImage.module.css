@@ -1,0 +1,14 @@
+.bg {
+  background-image: url("./image/Picture.webp");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+@media screen and (min-resolution: 192dpi) {
+  .bg {
+    background-image: url("./image/Picture@2x.webp");
+  }
+}

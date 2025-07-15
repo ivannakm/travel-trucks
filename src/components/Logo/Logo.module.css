@@ -1,0 +1,13 @@
+.logoIcon {
+  width: 136px;
+  height: 16px;
+  display: block;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* optional spacing */
+  text-decoration: none;
+  padding: 8px;
+}
