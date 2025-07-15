@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import css from "./HomePageText.module.css";
 
 const HomePageText = () => {
@@ -7,7 +8,11 @@ const HomePageText = () => {
       <p className={css.text}>
         You can find everything you want in our catalog
       </p>
-      <button className={css.button}>View Now</button>
+      <button className={css.button}>
+        <NavLink className={css.button} to="/catalog">
+          View Now
+        </NavLink>
+      </button>
     </div>
   );
 };
