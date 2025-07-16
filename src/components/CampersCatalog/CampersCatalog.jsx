@@ -5,6 +5,7 @@ import { FiHeart } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { TbAutomaticGearbox } from "react-icons/tb";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import { Link } from "react-router-dom";
 
 const CampersCatalog = ({ campers, filters, loading, error }) => {
   const [favorites, setFavorites] = useState([]);
@@ -141,7 +142,10 @@ const CampersCatalog = ({ campers, filters, loading, error }) => {
                 </div>
 
                 {/* Show More Button */}
-                <button className={css.showMoreBtn}>Show More</button>
+                {/* <button className={css.showMoreBtn}>Show More</button> */}
+                <Link className={css.showMoreBtn} to={`/catalog/:id`}>
+                  Show more
+                </Link>
               </div>
             </div>
           );
