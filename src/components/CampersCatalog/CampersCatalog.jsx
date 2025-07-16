@@ -1,11 +1,18 @@
-import { FaStar } from "react-icons/fa";
+import { FaGasPump, FaStar, FaUtensils, FaWind } from "react-icons/fa";
 import css from "./CampersCatalog.module.css";
 import { MdOutlineMap } from "react-icons/md";
 import { FiHeart } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { TbAutomaticGearbox } from "react-icons/tb";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 
 const CampersCatalog = ({ campers, filters, loading, error }) => {
   const [favorites, setFavorites] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(10); // Start with 10 campers
+
+  useEffect(() => {
+    setVisibleCount(10);
+  }, [filters]);
 
   // Function to handle favorite toggle
   const toggleFavorite = (id) => {
@@ -36,13 +43,15 @@ const CampersCatalog = ({ campers, filters, loading, error }) => {
     return true;
   });
 
+  const visibleCampers = filteredCampers.slice(0, visibleCount);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className={css.grid}>
       {filteredCampers.length > 0 ? (
-        filteredCampers.map((camper) => {
+        visibleCampers.map((camper) => {
           // Calculate average rating
           const avgRating =
             camper.reviews?.reduce(
@@ -66,29 +75,34 @@ const CampersCatalog = ({ campers, filters, loading, error }) => {
                   <h4 className={css.camperTitle}>{camper.name}</h4>
                   {/* Price and Heart Icon */}
                   <div className={css.priceAndHeart}>
-                    <span className={css.camperPrice}>${camper.price}</span>
+                    <span className={css.camperPrice}>
+                      ${camper.price.toFixed(2)}
+                    </span>
+
                     <FiHeart
                       className={css.heartIcon}
                       onClick={() => toggleFavorite(camper.id)}
                       style={{
-                        color: favorites.includes(camper.id) ? "red" : "gray", // Change color based on favorite state
+                        color: favorites.includes(camper.id) ? "red" : "gray",
                       }}
                     />
                   </div>
                 </div>
 
                 {/* Display Reviews */}
-                <div className={css.reviews}>
-                  <FaStar className={css.starIcon} />
-                  <span className={css.reviewText}>
-                    {avgRating.toFixed(1)} ({reviewCount} Reviews)
-                  </span>
-                </div>
+                <div className={css.camperMeta}>
+                  <div className={css.reviews}>
+                    <FaStar className={css.starIcon} />
+                    <span className={css.reviewText}>
+                      {avgRating.toFixed(1)} ({reviewCount} Reviews)
+                    </span>
+                  </div>
 
-                {/* Location */}
-                <div className={css.location}>
-                  <MdOutlineMap className={css.icon} />
-                  <span>{camper.location}</span>
+                  {/* Location */}
+                  <div className={css.location}>
+                    <MdOutlineMap className={css.icon} />
+                    <span>{camper.location}</span>
+                  </div>
                 </div>
 
                 {/* Camper Description */}
@@ -100,28 +114,28 @@ const CampersCatalog = ({ campers, filters, loading, error }) => {
 
                 {/* Categories */}
                 <div className={css.categoryContainer}>
-                  {camper.AC && (
+                  {camper.transmission && (
                     <div className={css.typeBox}>
-                      <FaStar className={css.icon} />
-                      <p>AC</p>
+                      <TbAutomaticGearbox className={css.icon} />
+                      <p>Automatic</p>
                     </div>
                   )}
-                  {camper.TV && (
+                  {camper.tank && (
                     <div className={css.typeBox}>
-                      <FaStar className={css.icon} />
-                      <p>TV</p>
+                      <FaGasPump className={css.icon} />
+                      <p>Petrol</p>
                     </div>
                   )}
                   {camper.kitchen && (
                     <div className={css.typeBox}>
-                      <FaStar className={css.icon} />
+                      <FaUtensils className={css.icon} />
                       <p>Kitchen</p>
                     </div>
                   )}
-                  {camper.bathroom && (
+                  {camper.AC && (
                     <div className={css.typeBox}>
-                      <FaStar className={css.icon} />
-                      <p>Bathroom</p>
+                      <FaWind className={css.icon} />
+                      <p>AC</p>
                     </div>
                   )}
                 </div>
@@ -134,6 +148,9 @@ const CampersCatalog = ({ campers, filters, loading, error }) => {
         })
       ) : (
         <p>No campers match your filters</p>
+      )}
+      {visibleCount < filteredCampers.length && (
+        <LoadMoreBtn onClick={() => setVisibleCount((prev) => prev + 10)} />
       )}
     </div>
   );

@@ -46,3 +46,8 @@ a {
 body {
   background: var(--color-white);
 }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
