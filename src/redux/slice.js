@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// Define initial state
 const initialState = {
   loading: false,
   campers: [],
   error: null,
 };
 
-// Create the slice
 const campersSlice = createSlice({
   name: "campers",
   initialState,
@@ -18,6 +16,10 @@ const campersSlice = createSlice({
     setCampers: (state, action) => {
       state.campers = action.payload;
     },
+    // setCampers: (state, action) => {
+    //   state.campers = Array.isArray(action.payload) ? action.payload : [];
+    // },
+
     setError: (state, action) => {
       state.error = action.payload;
     },

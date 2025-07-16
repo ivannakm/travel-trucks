@@ -1,21 +1,30 @@
-import axios from "axios";
-import { setCampers, setLoading, setError, clearCampers } from "./slice";
+import { setCampers, setError, setLoading } from "./slice";
+import { getCampers } from "../services/api";
 
-const API_URL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers";
-
-// Fetch campers data with optional filters
 export const fetchCampers =
   (filters = {}) =>
   async (dispatch) => {
-    dispatch(setLoading(true));
-    dispatch(clearCampers()); // before fetching new results
-    dispatch(setLoading(true));
-
     try {
-      // Fetch data from API with filters as query parameters
-      const response = await axios.get(API_URL, { params: filters });
-      dispatch(setCampers(response.data));
+      dispatch(setLoading(true));
+
+      const allowedFilters = ["location"];
+      const validFilters = Object.fromEntries(
+        Object.entries(filters).filter(
+          ([key, value]) => allowedFilters.includes(key) && value
+        )
+      );
+
+      const data = await getCampers(validFilters);
+
+      const campersArray = Array.isArray(data)
+        ? data
+        : Array.isArray(data.items)
+        ? data.items
+        : [];
+
+      dispatch(setCampers(campersArray));
     } catch (error) {
+      console.error("❌ API fetch error:", error);
       dispatch(setError(error.message));
     } finally {
       dispatch(setLoading(false));

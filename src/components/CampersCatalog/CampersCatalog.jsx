@@ -1,30 +1,39 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import css from "./CampersCatalog.module.css";
-import {
-  selectCampers,
-  selectError,
-  selectLoading,
-} from "../../redux/selectors";
-import { fetchCampers } from "../../redux/operations";
 
-const CampersCatalog = () => {
-  const dispatch = useDispatch();
-  const campers = useSelector(selectCampers);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+const CampersCatalog = ({ campers, filters, loading, error }) => {
+  const filteredCampers = campers.filter((camper) => {
+    console.log(
+      "Filter check:",
+      camper.name,
+      camper.location,
+      filters.location
+    );
+    const details = camper.details || {};
+    const transmission = camper.transmission || "";
 
-  useEffect(() => {
-    dispatch(fetchCampers()); // Fetch campers when the component mounts
-  }, [dispatch]);
+    const camperLocation = (camper.location || "").toLowerCase();
+    const filterLocation = (filters.location || "").toLowerCase().trim();
+
+    if (filterLocation && !camperLocation.includes(filterLocation))
+      return false;
+
+    if (filters.AC && !details.AC) return false;
+    if (filters.TV && !details.TV) return false;
+    if (filters.kitchen && !details.kitchen) return false;
+    if (filters.bathroom && !details.bathroom) return false;
+    if (filters.automatic && transmission !== "automatic") return false;
+    if (filters.form && camper.form !== filters.form) return false;
+
+    return true;
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className={css.grid}>
-      {campers.length > 0 ? (
-        campers.map((camper) => (
+      {filteredCampers.length > 0 ? (
+        filteredCampers.map((camper) => (
           <div key={camper.id} className={css.camperCard}>
             <h4>{camper.name}</h4>
             <img
@@ -36,7 +45,7 @@ const CampersCatalog = () => {
           </div>
         ))
       ) : (
-        <p>No campers available</p>
+        <p>No campers match your filters</p>
       )}
     </div>
   );
