@@ -27,19 +27,15 @@ const Catalog = () => {
     location: "",
   });
 
-  // const location = filters.location;
-
   // useEffect(() => {
-  //   if (location) {
-  //     dispatch(fetchCampers(filters));
+  //   if (filters.location) {
+  //     dispatch(fetchCampers({ location: filters.location }));
   //   }
-  // }, [dispatch, location]);
+  // }, [dispatch, filters.location]);
 
   useEffect(() => {
-    if (filters.location) {
-      dispatch(fetchCampers({ location: filters.location }));
-    }
-  }, [dispatch, filters.location]);
+    dispatch(fetchCampers({}));
+  }, [dispatch]);
 
   const handleFilter = () => {
     dispatch(fetchCampers(filters));
