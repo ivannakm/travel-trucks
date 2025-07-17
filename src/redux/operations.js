@@ -1,5 +1,5 @@
-import { setCampers, setError, setLoading } from "./slice";
-import { getCampers } from "../services/api";
+import { setCampers, setError, setLoading, setCamperInfo } from "./slice";
+import { getCamperById, getCampers } from "../services/api";
 
 export const fetchCampers =
   (filters = {}) =>
@@ -14,15 +14,8 @@ export const fetchCampers =
         )
       );
 
-      const data = await getCampers(validFilters);
-
-      const campersArray = Array.isArray(data)
-        ? data
-        : Array.isArray(data.items)
-        ? data.items
-        : [];
-
-      dispatch(setCampers(campersArray));
+      const campers = await getCampers(validFilters);
+      dispatch(setCampers(campers));
     } catch (error) {
       console.error("❌ API fetch error:", error);
       dispatch(setError(error.message));
@@ -30,3 +23,17 @@ export const fetchCampers =
       dispatch(setLoading(false));
     }
   };
+
+// New thunk to fetch camper by ID
+export const getCamperInfo = (id) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    const camper = await getCamperById(id);
+    dispatch(setCamperInfo(camper));
+  } catch (error) {
+    console.error("❌ API fetch camper error:", error);
+    dispatch(setError(error.message));
+  } finally {
+    dispatch(setLoading(false));
+  }
+};

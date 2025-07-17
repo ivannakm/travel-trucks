@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loading: false,
   campers: [],
+  camperInfo: null,
   error: null,
 };
 
@@ -15,6 +16,9 @@ const campersSlice = createSlice({
     },
     setCampers: (state, action) => {
       state.campers = action.payload;
+    },
+    setCamperInfo(state, action) {
+      state.camperInfo = action.payload;
     },
     // setCampers: (state, action) => {
     //   state.campers = Array.isArray(action.payload) ? action.payload : [];
@@ -30,7 +34,7 @@ const campersSlice = createSlice({
   },
 });
 
-export const { setLoading, setCampers, setError, clearCampers } =
+export const { setLoading, setCampers, setError, clearCampers, setCamperInfo } =
   campersSlice.actions;
 
 export default campersSlice.reducer;

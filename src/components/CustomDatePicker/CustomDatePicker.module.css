@@ -1,0 +1,12 @@
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  font-size: 16px;
+  color: #333;
+}
+
+.react-datepicker-popper {
+  z-index: 9999;
+}

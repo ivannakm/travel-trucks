@@ -143,7 +143,7 @@ const CampersCatalog = ({ campers, filters, loading, error }) => {
 
                 {/* Show More Button */}
                 {/* <button className={css.showMoreBtn}>Show More</button> */}
-                <Link className={css.showMoreBtn} to={`/catalog/:id`}>
+                <Link className={css.showMoreBtn} to={`/catalog/${camper.id}`}>
                   Show more
                 </Link>
               </div>
