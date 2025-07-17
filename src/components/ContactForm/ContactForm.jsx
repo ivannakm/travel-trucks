@@ -19,7 +19,7 @@ const ContactForm = () => {
   };
 
   return (
-    <div>
+    <div className={css.wrapper}>
       <h2 className={css.title}>Book your campervan now</h2>
       <p className={css.subtitle}>
         Stay connected! We are always ready to help you.

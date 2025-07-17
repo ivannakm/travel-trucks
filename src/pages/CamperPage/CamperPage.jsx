@@ -8,11 +8,17 @@ import Features from "../../components/Features/Features";
 import Reviews from "../../components/Reviews/Reviews";
 import { getCamperInfo } from "../../redux/operations";
 import { selectCamperInfo } from "../../redux/selectors";
+import clsx from "clsx";
+import css from "./CamperPage.module.css";
 
 const CamperPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const camper = useSelector(selectCamperInfo);
+
+  const addActive = ({ isActive }) => {
+    return clsx(css.link, isActive && css.active);
+  };
 
   useEffect(() => {
     if (id) {
@@ -29,20 +35,19 @@ const CamperPage = () => {
         {/* Camper main info */}
         <CamperItem camper={camper} />
 
-        <div>
+        <div className={css.contentLayout}>
+          {/* Camper features and reviews */}
+          <div>
+            <NavLink className={addActive} to={"features"}>
+              <Features features={camper.features} />
+            </NavLink>
+            <NavLink className={addActive} to={"reviews"}>
+              <Reviews reviews={camper.reviews} />
+            </NavLink>
+          </div>
           {/* Contact form on the side */}
           <div>
             <ContactForm camper={camper} />
-          </div>
-
-          {/* Camper features and reviews */}
-          <div>
-            <NavLink to={"features"}>
-              <Features features={camper.features} />
-            </NavLink>
-            <NavLink to={"reviews"}>
-              <Reviews reviews={camper.reviews} />
-            </NavLink>
           </div>
         </div>
       </div>
