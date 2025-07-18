@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Container from "../../components/Container/Container";
 import CamperItem from "../../components/CamperItem/CamperItem";
@@ -15,14 +15,10 @@ const CamperPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const camper = useSelector(selectCamperInfo);
-
-  const addActive = ({ isActive }) => {
-    return clsx(css.link, isActive && css.active);
-  };
+  const [activeTab, setActiveTab] = useState("features");
 
   useEffect(() => {
     if (id) {
-      console.log("Fetching camper info for id:", id);
       dispatch(getCamperInfo(id));
     }
   }, [dispatch, id]);
@@ -31,21 +27,40 @@ const CamperPage = () => {
 
   return (
     <Container>
-      <div>
+      <div className={css.wrapper}>
         {/* Camper main info */}
         <CamperItem camper={camper} />
 
+        {/* Tabs */}
+        <div className={css.tabs}>
+          <button
+            className={clsx(
+              css.tabButton,
+              activeTab === "features" && css.active
+            )}
+            onClick={() => setActiveTab("features")}
+          >
+            Features
+          </button>
+          <button
+            className={clsx(
+              css.tabButton,
+              activeTab === "reviews" && css.active
+            )}
+            onClick={() => setActiveTab("reviews")}
+          >
+            Reviews
+          </button>
+        </div>
+
         <div className={css.contentLayout}>
-          {/* Camper features and reviews */}
-          <div>
-            <NavLink className={addActive} to={"features"}>
-              <Features features={camper.features} />
-            </NavLink>
-            <NavLink className={addActive} to={"reviews"}>
-              <Reviews reviews={camper.reviews} />
-            </NavLink>
+          {/* Left column: dynamic content */}
+          <div className={css.tabContent}>
+            {activeTab === "features" && <Features />}
+            {activeTab === "reviews" && <Reviews />}
           </div>
-          {/* Contact form on the side */}
+
+          {/* Right column: static contact form */}
           <div>
             <ContactForm camper={camper} />
           </div>

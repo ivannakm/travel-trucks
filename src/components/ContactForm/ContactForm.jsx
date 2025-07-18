@@ -93,11 +93,10 @@ const ContactForm = () => {
           </div>
 
           {/* Submit Button */}
-          {/* <div className={css.buttonWrapper}> */}
+
           <button type="submit" className={css.button}>
             Send
           </button>
-          {/* </div> */}
         </Form>
       </Formik>
     </div>

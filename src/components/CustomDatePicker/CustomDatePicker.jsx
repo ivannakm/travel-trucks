@@ -1,6 +1,6 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./CustomDatePicker.module.css";
+import styles from "./CustomDatePicker.module.css";
 
 const CustomDatePicker = ({ className, field, form, ...rest }) => {
   const selected = field?.value
@@ -14,6 +14,7 @@ const CustomDatePicker = ({ className, field, form, ...rest }) => {
   return (
     <DatePicker
       className={className}
+      wrapperClassName={styles.reactDatepickerWrapper}
       selected={selected}
       onChange={handleChange}
       dateFormat="MM-dd-yyyy"
