@@ -1,15 +1,17 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
-import Catalog from "./pages/Catalog/Catalog";
-import CamperPage from "./pages/CamperPage/CamperPage";
-import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import Layout from "./components/Layout/Layout";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
+import Loader from "./components/Loader/Loader";
+
+const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
+const Catalog = lazy(() => import("./pages/Catalog/Catalog"));
+const CamperPage = lazy(() => import("./pages/CamperPage/CamperPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
 
 function App() {
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />

@@ -39,19 +39,22 @@ const CamperItem = ({ camper }) => {
       </div>
 
       <p className={css.priceSum}>€{price.toFixed(2)}</p>
-
       <ul className={css.photosList}>
-        {gallery.map((photo, index) => (
-          <li key={index}>
-            <div className={css.imageThumb}>
-              <img
-                className={css.image}
-                src={photo.thumb}
-                alt={`${name} ${index + 1}`}
-              />
-            </div>
-          </li>
-        ))}
+        {gallery.length > 0 ? (
+          gallery.map((photo, index) => (
+            <li key={index}>
+              <div className={css.imageThumb}>
+                <img
+                  className={css.image}
+                  src={photo.thumb}
+                  alt={`${name} ${index + 1}`}
+                />
+              </div>
+            </li>
+          ))
+        ) : (
+          <li>No images available</li>
+        )}
       </ul>
 
       <div className={css.description}>{description}</div>

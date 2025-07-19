@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { TbAutomaticGearbox } from "react-icons/tb";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import { Link } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 const CampersCatalog = ({ campers, filters, loading, error }) => {
   const [favorites, setFavorites] = useState([]);
@@ -46,7 +47,7 @@ const CampersCatalog = ({ campers, filters, loading, error }) => {
 
   const visibleCampers = filteredCampers.slice(0, visibleCount);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error: {error}</p>;
 
   return (
